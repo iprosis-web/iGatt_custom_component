@@ -1,0 +1,120 @@
+<html>
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', { 'packages': ['gantt'] });
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Task ID');
+			data.addColumn('string', 'Task Name');
+			data.addColumn('string', 'Resource');
+			data.addColumn('date', 'Start Date');
+			data.addColumn('date', 'End Date');
+			data.addColumn('number', 'Duration');
+			data.addColumn('number', 'Percent Complete');
+			data.addColumn('string', 'Dependencies');
+
+			data.addRows(
+				[
+					['task1_planned', 'Task 1 planned', 'Planned',
+						new Date(2020, 0, 1), new Date(2020, 0, 31), null, 100, null],
+					['task1_actual', 'Task 1 actual', 'Actual',
+						new Date(2020, 0, 3), new Date(2020, 1, 10), null, 77, null],
+
+					['task2_planned', 'Task 2 planned', 'Planned',
+						new Date(2020, 0, 15), new Date(2020, 1, 28), null, 100, null],
+					['task2_actual', 'Task 2 actual', 'Actual',
+						new Date(2020, 0, 20), new Date(2020, 2, 7), null, 27, null],
+
+					['task3_planned', 'Task 3 planned', 'Planned',
+						new Date(2020, 0, 22), new Date(2020, 2, 28), null, 100, null],
+					['task3_actual', 'Task 3 actual', 'Actual',
+						new Date(2020, 0, 30), new Date(2020, 3, 10), null, 88, null],
+
+					['task4_planned', 'Task 4 planned', 'Planned',
+						new Date(2020, 2, 2), new Date(2020, 3, 28), null, 100, null],
+					['task4_actual', 'Task 4 actual', 'Actual',
+						new Date(2020, 2, 15), new Date(2020, 4, 1), null, 55, null],
+				]
+			);
+
+			var options = {
+				criticalPathEnabled: false,
+				gantt: {
+					sortTasks: false,
+					percentEnabled: true,
+					trackHeight: 60,
+
+					labelStyle: {
+						fontName: 'Arial',
+						fontSize: 18,
+					},
+
+					palette: [
+						{
+							"color": '#4dd0e1',
+							"dark": '#4dd0e1',
+							"light": '#c6dafc'
+						},
+						{
+							"color": '#b47cff',
+							"dark": '#7c4dff',
+							"light": '#c6dafc'
+						}
+					],
+
+
+				},
+
+			};
+
+			var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+			chart.draw(data, options);
+		}
+
+	</script>
+</head>
+
+<body>
+	<style>
+		.wrapper {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 150rem;
+			height: 100rem;
+		}
+
+		/* Work-around to control over tootip styling... didn't find interface at google */
+		#chart_div g:last-child * {
+			font-family: 'Arial' !important;
+			font-size: 14px !important;
+			font-weight: normal !important;
+		}
+
+		#chart_div g:last-child rect {
+			width: 300px !important;
+		}
+
+		#chart_div g:nth-child(2) text {
+			font-size: 15px !important;
+		}
+
+		#chart_div {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	<div class="wrapper">
+		<div id="chart_div"></div>
+	</div>
+</body>
+
+</html>
