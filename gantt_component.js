@@ -46,34 +46,57 @@
 						<div id="chart_div"></div>
         			`;
 
-					'task2_planned',
-						// 		new Date(2020, 0, 15),
-						// 		new Date(2020, 1, 28),
+					// Default input data
+					this.stringData = [
+						'task1_planned:Task 1 planned:Planned:01-01-2020:31-01-2020:100',
+						'task1_actual:Task 1 actual:Actual:01-01-2020:31-01-2020:77',
 
-						// 		new Date(2020, 0, 20),
-						// 		new Date(2020, 2, 7),
+						'task3_planned:Task 3 planned:Planned:15-01-2020:28-02-2020:100',
+						'task3_actual:Task 3 actual:Actual:20-01-2020:07-03-2020:43',
 
-						(this.stringData = [
-							'task1_planned:Task 1 planned:Planned:01-01-2020:31-01-2020:100',
-							'task1_actual:Task 1 actual:Actual:01-01-2020:31-01-2020:77',
-							'task2_planned:Task 2 planned:Planned:15-01-2020:28-02-2020:100',
-							'task2_actual:Task 2 actual:Actual:20-01-2020:07-03-2020:43',
-							'task3_planned:Task 3 planned:Planned:01-01-2020:31-01-2020:100',
-							'task3_actual:Task 3 actual:Actual:01-01-2020:31-01-2020:77',
-							'task4_planned:Task 4 planned:Planned:01-01-2020:31-01-2020:100',
-							'task4_actual:Task 4 actual:Actual:01-01-2020:31-01-2020:77',
-						]);
+						'task2_planned:Task 2 planned:Planned:22-01-2020:28-03-2020:100',
+						'task2_actual:Task 2 actual:Actual:30-01-2020:10-04-2020:25',
+
+						'task4_planned:Task 4 planned:Planned:02-03-2020:22-04-2020:100',
+						'task4_actual:Task 4 actual:Actual:15-03-2020:01-05-2020:87',
+					];
+
+					// Default colors
+					this.colorPlanned = '#4dd0e1';
+					this.colorTask = '#b47cff';
+					this.colorCompleted = '#7c4dff';
 
 					let shadowRoot = this.attachShadow({ mode: 'open' });
 					shadowRoot.appendChild(template.content.cloneNode(true));
 					google.charts.load('current', { packages: ['gantt'] });
 					google.charts.setOnLoadCallback(this.drawChart.bind(this));
+				} // of constructor
+
+				setColorPlanned(color) {
+					// TODO input validation
+					this.colorPlanned = color;
+				}
+
+				setColorTask(color) {
+					// TODO input validation
+					this.colorTask = color;
+				}
+
+				setColorCompleted(color) {
+					// TODO input validation
+					this.colorCompleted = color;
+				}
+
+				setStringData(data) {
+					//TODO need input validation here...
+					this.stringData = data;
 				}
 
 				getStringData() {
 					console.log('Data:::', this.stringData);
 				}
 
+				// Converts input data. See more delails in the comments
 				formatData() {
 					let returnData = [];
 					this.stringData.forEach((element) => {
@@ -183,69 +206,6 @@
 					// 		null,
 					// 	],
 					// ])
-					// 	[
-					// 		'task2_planned',
-					// 		'Task 2 planned',
-					// 		'Planned',
-					// 		new Date(2020, 0, 15),
-					// 		new Date(2020, 1, 28),
-					// 		null,
-					// 		100,
-					// 		null,
-					// 	],
-					// 	[
-					// 		'task2_actual',
-					// 		'Task 2 actual',
-					// 		'Actual',
-					// 		new Date(2020, 0, 20),
-					// 		new Date(2020, 2, 7),
-					// 		null,
-					// 		27,
-					// 		null,
-					// 	],
-
-					// 	[
-					// 		'task3_planned',
-					// 		'Task 3 planned',
-					// 		'Planned',
-					// 		new Date(2020, 0, 22),
-					// 		new Date(2020, 2, 28),
-					// 		null,
-					// 		100,
-					// 		null,
-					// 	],
-					// 	[
-					// 		'task3_actual',
-					// 		'Task 3 actual',
-					// 		'Actual',
-					// 		new Date(2020, 0, 30),
-					// 		new Date(2020, 3, 10),
-					// 		null,
-					// 		88,
-					// 		null,
-					// 	],
-
-					// 	[
-					// 		'task4_planned',
-					// 		'Task 4 planned',
-					// 		'Planned',
-					// 		new Date(2020, 2, 2),
-					// 		new Date(2020, 3, 28),
-					// 		null,
-					// 		100,
-					// 		null,
-					// 	],
-					// 	[
-					// 		'task4_actual',
-					// 		'Task 4 actual',
-					// 		'Actual',
-					// 		new Date(2020, 2, 15),
-					// 		new Date(2020, 4, 1),
-					// 		null,
-					// 		55,
-					// 		null,
-					// 	],
-					// ]);
 
 					data.addRows(this.formatData());
 
@@ -259,16 +219,20 @@
 								fontName: 'Arial',
 								fontSize: 18,
 							},
+							// Tracks colors
+							// Be sure provide only Hex colors (like #0f0f0f) and not color names (like "blue")
 							palette: [
+								// Color of planned
 								{
-									color: '#4dd0e1',
-									dark: '#4dd0e1',
-									light: '#c6dafc',
+									color: this.colorPlanned,
+									dark: this.colorPlanned,
+									light: '#c6dafc', //disabled
 								},
+								// Color of actual
 								{
-									color: '#b47cff',
-									dark: '#7c4dff',
-									light: '#c6dafc',
+									color: this.colorTask, //actual task
+									dark: this.colorCompleted, // actual completed
+									light: '#c6dafc', //disabled
 								},
 							],
 						},
